@@ -6,15 +6,17 @@
      </div>
 
        <!--配置 Form 表单验证
-       1.
-
+       1.必须给 el-from 组件绑定model为表单数据对象
+       2.给需要验证的表单项el-form-item绑定prop属性
+          注意:prop属性需要指定表单对象中的数据名称
+       3.通过 el-form  组件的rules属性配置验证规则
        -->
 
-     <el-form class="login-form"  ref="form" :model="user" >
-       <el-form-item >
+     <el-form class="login-form"  ref="form" :model="user"  :rules="formRules">
+       <el-form-item prop="mobile">
          <el-input v-model="user.mobile" placeholder="请输入手机号"></el-input>
        </el-form-item>
-       <el-form-item >
+       <el-form-item prop="code">
          <el-input v-model="user.code" placeholder="请输入验证码"></el-input>
        </el-form-item>
        <el-form-item >
@@ -41,7 +43,13 @@
           code:''     //验证码
         },
         checked:false,
-        loginLoading: false //登录的 loading 状态
+        loginLoading: false, //登录的 loading 状态
+        formRules:{
+          mobile: [
+            { required: true, message: '请输入手机号', trigger: 'blur' },
+            // { min: 11, max: 11, message: '请输入正确的手机号', trigger: 'blur' }
+          ],
+        }
        }
     },
     methods: {
